@@ -183,6 +183,7 @@
         });
         return defer.promise;
       }
+      return upload.emptyPromise();
     }
 
     function calculateDragOverClass(scope, attr, evt, callback) {
@@ -225,7 +226,7 @@
             var promises = [upload.emptyPromise()];
             if (includeDir) {
               var file = {type: 'directory'};
-              file.name = file.path = (path || '') + entry.name + entry.name;
+              file.name = file.path = (path || '') + entry.name;
               files.push(file);
             }
             var dirReader = entry.createReader();
@@ -315,7 +316,7 @@
 
       var defer = $q.defer();
       $q.all(promises).then(function () {
-        if (!multiple && !includeDir) {
+        if (!multiple && !includeDir && files.length) {
           var i = 0;
           while (files[i] && files[i].type === 'directory') i++;
           defer.resolve([files[i]]);
